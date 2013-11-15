@@ -53,7 +53,7 @@ void handle_appfocus(bool in_focus){
 
 
 void line_layer_update_callback(Layer *layer, GContext* ctx) {
-  graphics_context_set_fill_color(ctx, GColorBlack);
+  graphics_context_set_fill_color(ctx, GColorWhite);
   graphics_fill_rect(ctx, layer_get_bounds(layer), 0, GCornerNone);
 }
 
@@ -97,18 +97,18 @@ void handle_deinit(void) {
 void handle_init(void) {
   window = window_create();
   window_stack_push(window, true /* Animated */);
-  window_set_background_color(window, GColorWhite);
+  window_set_background_color(window, GColorBlack);
 
   Layer *window_layer = window_get_root_layer(window);
 
   text_date_layer = text_layer_create(GRect(8, 68, 144-8, 168-68));
-  text_layer_set_text_color(text_date_layer, GColorBlack);
+  text_layer_set_text_color(text_date_layer, GColorWhite);
   text_layer_set_background_color(text_date_layer, GColorClear);
   text_layer_set_font(text_date_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_21)));
   layer_add_child(window_layer, text_layer_get_layer(text_date_layer));
 
   text_time_layer = text_layer_create(GRect(7, 92, 144-7, 168-92));
-  text_layer_set_text_color(text_time_layer, GColorBlack);
+  text_layer_set_text_color(text_time_layer, GColorWhite);
   text_layer_set_background_color(text_time_layer, GColorClear);
   text_layer_set_font(text_time_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_49)));
   layer_add_child(window_layer, text_layer_get_layer(text_time_layer));
@@ -136,7 +136,7 @@ void handle_init(void) {
     bitmap_layer_set_bitmap(bluetoothLayer, bluetooth);
 
     batterytext_layer = text_layer_create(GRect(3,20,30,20));
-    text_layer_set_text_color(batterytext_layer, GColorBlack);
+    text_layer_set_text_color(batterytext_layer, GColorWhite);
     text_layer_set_background_color(batterytext_layer, GColorClear);
     text_layer_set_font(batterytext_layer, fonts_get_system_font(FONT_KEY_FONT_FALLBACK));
     text_layer_set_text_alignment(batterytext_layer, GTextAlignmentCenter);

@@ -1,10 +1,10 @@
 {
-  "uuid": "b95eda21-5326-4fb0-ba9f-d2b1d259f625",
-  "shortName": "Simple F",
-  "longName": "Simple F",
+  "uuid": "d042b13b-2832-4451-b3cd-eeef08b67a29",
+  "shortName": "Simple F Blk",
+  "longName": "Simple F Black",
   "companyName": "QuickFox",
   "versionCode": 1,
-  "versionLabel": "1.0.0",
+  "versionLabel": "1.0.1",
   "watchapp": {
     "watchface": true
   },
@@ -14,17 +14,17 @@
         {
             "type": "png",
             "name": "IMAGE_DISCONNECT",
-            "file": "images/disconnect.png"
+            "file": "images/disconnect-i.png"
         },
         {
             "type": "png",
             "name": "IMAGE_BLUETOOTH",
-            "file": "images/bluetooth.png"
+            "file": "images/bluetooth-i.png"
         },
         {
             "type": "png",
             "name": "IMAGE_BATTERY",
-            "file": "images/battery.png"
+            "file": "images/battery-i.png"
         },
       {
         "menuIcon": true,
