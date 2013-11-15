@@ -113,7 +113,7 @@ void handle_init(void) {
   text_layer_set_font(text_time_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_49)));
   layer_add_child(window_layer, text_layer_get_layer(text_time_layer));
 
-  GRect line_frame = GRect(8, 97, 139, 2);
+  GRect line_frame = GRect(8, 97, 128, 2);
   line_layer = layer_create(line_frame);
   layer_set_update_proc(line_layer, line_layer_update_callback);
   layer_add_child(window_layer, line_layer);
