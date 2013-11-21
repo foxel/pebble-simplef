@@ -70,13 +70,12 @@ void line_layer_update_callback(Layer *layer, GContext* ctx) {
     graphics_fill_rect(ctx, layer_get_bounds(layer), 0, GCornerNone);
 }
 
-void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
+void update_time(struct tm *tick_time) {
     // Need to be static because they're used by the system later.
     static char time_text[] = "00:00";
     static char date_text[] = "Xxxxxxxxx 00";
 
     char *time_format;
-
 
     // TODO: Only update the date when it's changed.
     strftime(date_text, sizeof(date_text), "%B %e", tick_time);
@@ -98,6 +97,10 @@ void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
     }
 
     text_layer_set_text(text_time_layer, time_text);
+}
+
+void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
+    update_time(tick_time);
 }
 
 void handle_deinit(void) {
@@ -132,7 +135,6 @@ void handle_init(void) {
     layer_add_child(window_layer, line_layer);
 
     tick_timer_service_subscribe(MINUTE_UNIT, handle_minute_tick);
-    // TODO: Update display here to avoid blank display on launch?
 
     // Mods here
     img_bt_connect     = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_CONNECT);
@@ -169,6 +171,8 @@ void handle_init(void) {
 
     handle_battery(battery_state_service_peek());
     handle_bluetooth(bluetooth_connection_service_peek());
+    time_t now = time(NULL);
+    update_time(localtime(&now));
 }
 
 
