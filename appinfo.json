@@ -1,48 +1,63 @@
 {
-  "uuid": "d042b13b-2832-4451-b3cd-eeef08b67a29",
-  "shortName": "Simple F Blk",
-  "longName": "Simple F Black",
-  "companyName": "QuickFox",
-  "versionCode": 1,
-  "versionLabel": "1.0.1",
-  "watchapp": {
-    "watchface": true
-  },
-  "appKeys": {},
-  "resources": {
-    "media": [
-        {
-            "type": "png",
-            "name": "IMAGE_DISCONNECT",
-            "file": "images/disconnect-i.png"
-        },
-        {
-            "type": "png",
-            "name": "IMAGE_BLUETOOTH",
-            "file": "images/bluetooth-i.png"
-        },
-        {
-            "type": "png",
-            "name": "IMAGE_BATTERY",
-            "file": "images/battery-i.png"
-        },
-      {
-        "menuIcon": true,
-        "type": "png",
-        "name": "IMAGE_MENU_ICON",
-        "file": "images/menu_icon_simplicity.png"
-      },
-      {
-        "type": "font",
-        "name": "FONT_ROBOTO_CONDENSED_21",
-        "file": "fonts/Roboto-Condensed.ttf"
-      },
-      {
-        "characterRegex": "[:0-9]",
-        "type": "font",
-        "name": "FONT_ROBOTO_BOLD_SUBSET_49",
-        "file": "fonts/Roboto-Bold.ttf"
-      }
-    ]
-  }
+    "uuid": "d042b13b-2832-4451-b3cd-eeef08b67a29",
+    "shortName": "Simple F Blk",
+    "longName": "Simple F Black",
+    "companyName": "QuickFox",
+    "versionCode": 1.1,
+    "versionLabel": "1.1",
+    "watchapp": {
+        "watchface": true
+    },
+    "appKeys": {},
+    "resources": {
+        "media": [
+            {
+                "type": "png",
+                "name": "IMAGE_DISCONNECT",
+                "file": "images/phone-lost.png"
+            },
+            {
+                "type": "png",
+                "name": "IMAGE_CONNECT",
+                "file": "images/phone.png"
+            },
+            {
+                "type": "png",
+                "name": "IMAGE_BATTERY_FULL",
+                "file": "images/battery.png"
+            },
+            {
+                "type": "png",
+                "name": "IMAGE_BATTERY_HALF",
+                "file": "images/battery-half.png"
+            },
+            {
+                "type": "png",
+                "name": "IMAGE_BATTERY_LOW",
+                "file": "images/battery-low.png"
+            },
+            {
+                "type": "png",
+                "name": "IMAGE_BATTERY_CHARGE",
+                "file": "images/battery-charge.png"
+            },
+            {
+                "menuIcon": true,
+                "type": "png",
+                "name": "IMAGE_MENU_ICON",
+                "file": "images/menu_icon_simplicity.png"
+            },
+            {
+                "type": "font",
+                "name": "FONT_ROBOTO_CONDENSED_21",
+                "file": "fonts/Roboto-Condensed.ttf"
+            },
+            {
+                "characterRegex": "[:0-9]",
+                "type": "font",
+                "name": "FONT_ROBOTO_BOLD_SUBSET_49",
+                "file": "fonts/Roboto-Bold.ttf"
+            }
+        ]
+    }
 }
