@@ -3,8 +3,8 @@
     "shortName": "Simple F Blk",
     "longName": "Simple F Black",
     "companyName": "QuickFox",
-    "versionCode": 1.1,
-    "versionLabel": "1.1",
+    "versionCode": 1.2,
+    "versionLabel": "1.2",
     "watchapp": {
         "watchface": true
     },

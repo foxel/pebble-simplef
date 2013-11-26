@@ -3,6 +3,7 @@
 
 Window *window;
 TextLayer *text_date_layer;
+TextLayer *text_wday_layer;
 TextLayer *text_time_layer;
 Layer *line_layer;
 
@@ -18,6 +19,7 @@ GRect battery_rect;
 GRect bluetooth_rect;
 TextLayer *batterytext_layer;
 int charge_percent = 0;
+int cur_day = -1;
 
 void handle_battery(BatteryChargeState charge_state) {
     static char battery_text[] = "100 ";
@@ -30,7 +32,7 @@ void handle_battery(BatteryChargeState charge_state) {
         snprintf(battery_text, sizeof(battery_text), "%d", charge_state.charge_percent);
         if (charge_state.charge_percent <= 20) {
             bitmap_layer_set_bitmap(batteryLayer, img_battery_low);
-        } else if (charge_state.charge_percent <= 60) {
+        } else if (charge_state.charge_percent <= 50) {
             bitmap_layer_set_bitmap(batteryLayer, img_battery_half);
         } else {
             bitmap_layer_set_bitmap(batteryLayer, img_battery_full);
@@ -74,13 +76,21 @@ void update_time(struct tm *tick_time) {
     // Need to be static because they're used by the system later.
     static char time_text[] = "00:00";
     static char date_text[] = "Xxxxxxxxx 00";
-
+    static char wday_text[] = "Xxxxxxxxx";
+    
     char *time_format;
 
-    // TODO: Only update the date when it's changed.
-    strftime(date_text, sizeof(date_text), "%B %e", tick_time);
-    text_layer_set_text(text_date_layer, date_text);
+    // Only update the date when it's changed.
+    int new_cur_day = tick_time->tm_year*1000 + tick_time->tm_yday;
+    if (new_cur_day != cur_day) {
+        cur_day = new_cur_day;
+        
+        strftime(date_text, sizeof(date_text), "%B %e", tick_time);
+        text_layer_set_text(text_date_layer, date_text);
 
+        strftime(wday_text, sizeof(wday_text), "%A", tick_time);
+        text_layer_set_text(text_wday_layer, wday_text);
+    }
 
     if (clock_is_24h_style()) {
         time_format = "%R";
@@ -116,6 +126,12 @@ void handle_init(void) {
     window_set_background_color(window, background_color);
 
     Layer *window_layer = window_get_root_layer(window);
+
+    text_wday_layer = text_layer_create(GRect(8, 47, 144-8, 168-68));
+    text_layer_set_text_color(text_wday_layer, foreground_color);
+    text_layer_set_background_color(text_wday_layer, GColorClear);
+    text_layer_set_font(text_wday_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_21)));
+    layer_add_child(window_layer, text_layer_get_layer(text_wday_layer));
 
     text_date_layer = text_layer_create(GRect(8, 68, 144-8, 168-68));
     text_layer_set_text_color(text_date_layer, foreground_color);
