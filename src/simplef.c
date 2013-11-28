@@ -1,6 +1,10 @@
 #include "pebble.h"
 #include "vars.h"
 
+GColor background_color = GColorWhite;
+GColor foreground_color = GColorBlack;
+GCompOp compositing_mode = GCompOpAssign;
+
 Window *window;
 TextLayer *layer_date_text;
 TextLayer *layer_wday_text;
@@ -110,17 +114,17 @@ void update_time(struct tm *tick_time) {
 void set_style(void) {
     bool inverse = persist_read_bool(STYLE_KEY);
     
-    GColor bg  = inverse ? background_color_i : background_color;
-    GColor fg  = inverse ? foreground_color_i : foreground_color;
-    GCompOp cm = inverse ? composition_mode_i : composition_mode;
+    background_color  = inverse ? GColorBlack : GColorWhite;
+    foreground_color  = inverse ? GColorWhite : GColorBlack;
+    compositing_mode  = inverse ? GCompOpAssignInverted : GCompOpAssign;
     
-    window_set_background_color(window, bg);
-    text_layer_set_text_color(layer_time_text, fg);
-    text_layer_set_text_color(layer_wday_text, fg);
-    text_layer_set_text_color(layer_date_text, fg);
-    text_layer_set_text_color(layer_batt_text, fg);
-    bitmap_layer_set_compositing_mode(layer_batt_img, cm);
-    bitmap_layer_set_compositing_mode(layer_conn_img, cm);
+    window_set_background_color(window, background_color);
+    text_layer_set_text_color(layer_time_text, foreground_color);
+    text_layer_set_text_color(layer_wday_text, foreground_color);
+    text_layer_set_text_color(layer_date_text, foreground_color);
+    text_layer_set_text_color(layer_batt_text, foreground_color);
+    bitmap_layer_set_compositing_mode(layer_batt_img, compositing_mode);
+    bitmap_layer_set_compositing_mode(layer_conn_img, compositing_mode);
 }
 
 void force_update(void) {
@@ -196,13 +200,13 @@ void handle_init(void) {
     // composing layers
     Layer *window_layer = window_get_root_layer(window);
 
+    layer_add_child(window_layer, layer_line);
+    layer_add_child(window_layer, bitmap_layer_get_layer(layer_batt_img));
+    layer_add_child(window_layer, bitmap_layer_get_layer(layer_conn_img));
     layer_add_child(window_layer, text_layer_get_layer(layer_wday_text));
     layer_add_child(window_layer, text_layer_get_layer(layer_date_text));
     layer_add_child(window_layer, text_layer_get_layer(layer_time_text));
     layer_add_child(window_layer, text_layer_get_layer(layer_batt_text));
-    layer_add_child(window_layer, bitmap_layer_get_layer(layer_batt_img));
-    layer_add_child(window_layer, bitmap_layer_get_layer(layer_conn_img));
-    layer_add_child(window_layer, layer_line);
 
     // style
     set_style();
