@@ -114,9 +114,9 @@ void update_time(struct tm *tick_time) {
 void set_style(void) {
     bool inverse = persist_read_bool(STYLE_KEY);
     
-    background_color  = inverse ? GColorBlack : GColorWhite;
-    foreground_color  = inverse ? GColorWhite : GColorBlack;
-    compositing_mode  = inverse ? GCompOpAssignInverted : GCompOpAssign;
+    background_color  = inverse ? GColorWhite : GColorBlack;
+    foreground_color  = inverse ? GColorBlack : GColorWhite;
+    compositing_mode  = inverse ? GCompOpAssign : GCompOpAssignInverted;
     
     window_set_background_color(window, background_color);
     text_layer_set_text_color(layer_time_text, foreground_color);
