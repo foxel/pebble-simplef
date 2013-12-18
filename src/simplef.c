@@ -77,8 +77,8 @@ void line_layer_update_callback(Layer *layer, GContext* ctx) {
 void update_time(struct tm *tick_time) {
     // Need to be static because they're used by the system later.
     static char time_text[] = "00:00";
-    static char date_text[] = "Xxxxxxxxx 00";
-    static char wday_text[] = "Xxxxxxxxx";
+    static char date_text[] = "Pxx Wxx Dxx";
+    static char wday_text[] = "Xxx xx Xxx";
     
     char *time_format;
 
@@ -87,12 +87,21 @@ void update_time(struct tm *tick_time) {
     if (new_cur_day != cur_day) {
         cur_day = new_cur_day;
         
-        strftime(date_text, sizeof(date_text), "%B %e", tick_time);
+        // ALL are 0-based
+        int wday = tick_time->tm_wday;
+        int wsday = tick_time->tm_yday - tick_time->tm_wday;
+        // need to adjust start week
+        int wnum = (wsday / 7);
+        
+        int pnum = wnum/4;
+
+        snprintf(date_text, sizeof(date_text), "P%d W%d D%d", pnum+1, (wnum%4)+1, wday+1);
         text_layer_set_text(layer_date_text, date_text);
 
-        strftime(wday_text, sizeof(wday_text), "%A", tick_time);
+        strftime(wday_text, sizeof(wday_text), "%a %e %b", tick_time);
         text_layer_set_text(layer_wday_text, wday_text);
     }
+
 
     if (clock_is_24h_style()) {
         time_format = "%R";
