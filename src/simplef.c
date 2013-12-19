@@ -91,7 +91,8 @@ void update_time(struct tm *tick_time) {
         int wday = tick_time->tm_wday;
         int wsday = tick_time->tm_yday - tick_time->tm_wday;
         // need to adjust start week
-        int wnum = (wsday / 7);
+        int wnum = (wsday / 7) - 10;
+        if (wnum < 0) wnum += 52;
         
         int pnum = wnum/4;
 
@@ -180,8 +181,8 @@ void handle_init(void) {
     img_battery_charge = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_CHARGE);
 
     // layers
-    layer_wday_text = text_layer_create(GRect(8, 47, 144-8, 168-68));
-    layer_date_text = text_layer_create(GRect(8, 68, 144-8, 168-68));
+    layer_wday_text = text_layer_create(GRect(8, 40, 144-8, 168-68));
+    layer_date_text = text_layer_create(GRect(8, 65, 144-8, 168-68));
     layer_time_text = text_layer_create(GRect(7, 92, 144-7, 168-92));
     layer_batt_text = text_layer_create(GRect(3,20,30,20));
     layer_batt_img  = bitmap_layer_create(GRect(10, 10, 16, 16));
@@ -189,10 +190,10 @@ void handle_init(void) {
     layer_line      = layer_create(GRect(8, 97, 128, 2));
 
     text_layer_set_background_color(layer_wday_text, GColorClear);
-    text_layer_set_font(layer_wday_text, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_21)));
+    text_layer_set_font(layer_wday_text, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_25)));
 
     text_layer_set_background_color(layer_date_text, GColorClear);
-    text_layer_set_font(layer_date_text, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_21)));
+    text_layer_set_font(layer_date_text, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_25)));
 
     text_layer_set_background_color(layer_time_text, GColorClear);
     text_layer_set_font(layer_time_text, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_49)));
