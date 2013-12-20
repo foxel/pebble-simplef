@@ -74,14 +74,39 @@ void line_layer_update_callback(Layer *layer, GContext* ctx) {
     graphics_fill_rect(ctx, layer_get_bounds(layer), 0, GCornerNone);
 }
 
-void update_time(struct tm *tick_time) {
+int get_wnum(time_t ts) {
+    struct tm* t = localtime(&ts);
+
+    int wsday = t->tm_yday - t->tm_wday;
+    int wnum;
+
+    if (wsday < 0) {
+        wsday += 7;
+        wnum = (wsday / 7) - 1;
+    } else {
+        wnum = (wsday / 7);
+    }
+    
+    if (wnum < 10) {
+        wnum += get_wnum(ts - (((t->tm_yday*24 + t->tm_hour)*60 + t->tm_min)*60 + t->tm_sec) - 1) + 1;
+    } else {
+        wnum -= 10;
+    }
+
+    return wnum;
+}
+
+void update_time(struct tm *_noUse) {
     // Need to be static because they're used by the system later.
     static char time_text[] = "00:00";
-    static char date_text[] = "Pxx Wxx Dxx";
+    static char date_text[] = "Pxx Wx Dxx";
     static char wday_text[] = "Xxx xx Xxx";
     
     char *time_format;
 
+    time_t ts = time(NULL);
+    struct tm* tick_time = localtime(&ts);
+    
     // Only update the date when it's changed.
     int new_cur_day = tick_time->tm_year*1000 + tick_time->tm_yday;
     if (new_cur_day != cur_day) {
@@ -89,10 +114,7 @@ void update_time(struct tm *tick_time) {
         
         // ALL are 0-based
         int wday = tick_time->tm_wday;
-        int wsday = tick_time->tm_yday - tick_time->tm_wday;
-        // need to adjust start week
-        int wnum = (wsday / 7) - 10;
-        if (wnum < 0) wnum += 52;
+        int wnum = get_wnum(ts);
         
         int pnum = wnum/4;
 
