@@ -3,8 +3,8 @@
     "shortName": "4 weeks",
     "longName": "Simple F 4 weeks accounting",
     "companyName": "QuickFox",
-    "versionCode": 1.0,
-    "versionLabel": "1.0",
+    "versionCode": 1.1,
+    "versionLabel": "1.1",
     "watchapp": {
         "watchface": true
     },

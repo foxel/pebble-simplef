@@ -75,9 +75,9 @@ void line_layer_update_callback(Layer *layer, GContext* ctx) {
 }
 
 int get_wnum(time_t ts) {
-    struct tm* t = localtime(&ts);
+    struct tm t = *localtime(&ts);
 
-    int wsday = t->tm_yday - t->tm_wday;
+    int wsday = t.tm_yday - t.tm_wday;
     int wnum;
 
     if (wsday < 0) {
@@ -88,7 +88,7 @@ int get_wnum(time_t ts) {
     }
     
     if (wnum < 10) {
-        wnum += get_wnum(ts - (((t->tm_yday*24 + t->tm_hour)*60 + t->tm_min)*60 + t->tm_sec) - 1) + 1;
+        wnum += get_wnum(ts - (((t.tm_yday*24 + t.tm_hour)*60 + t.tm_min)*60 + t.tm_sec) - 1) + 1;
     } else {
         wnum -= 10;
     }
@@ -105,15 +105,15 @@ void update_time(struct tm *_noUse) {
     char *time_format;
 
     time_t ts = time(NULL);
-    struct tm* tick_time = localtime(&ts);
+    struct tm tick_time = *localtime(&ts);
     
     // Only update the date when it's changed.
-    int new_cur_day = tick_time->tm_year*1000 + tick_time->tm_yday;
+    int new_cur_day = tick_time.tm_year*1000 + tick_time.tm_yday;
     if (new_cur_day != cur_day) {
         cur_day = new_cur_day;
         
         // ALL are 0-based
-        int wday = tick_time->tm_wday;
+        int wday = tick_time.tm_wday;
         int wnum = get_wnum(ts);
         
         int pnum = wnum/4;
@@ -121,7 +121,7 @@ void update_time(struct tm *_noUse) {
         snprintf(date_text, sizeof(date_text), "P%d W%d D%d", pnum+1, (wnum%4)+1, wday+1);
         text_layer_set_text(layer_date_text, date_text);
 
-        strftime(wday_text, sizeof(wday_text), "%a %e %b", tick_time);
+        strftime(wday_text, sizeof(wday_text), "%a %e %b", &tick_time);
         text_layer_set_text(layer_wday_text, wday_text);
     }
 
@@ -132,7 +132,7 @@ void update_time(struct tm *_noUse) {
         time_format = "%I:%M";
     }
 
-    strftime(time_text, sizeof(time_text), time_format, tick_time);
+    strftime(time_text, sizeof(time_text), time_format, &tick_time);
 
     // Kludge to handle lack of non-padded hour format string
     // for twelve hour clock.
