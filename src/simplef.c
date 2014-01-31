@@ -39,14 +39,14 @@ void handle_battery(BatteryChargeState charge_state) {
         } else {
             bitmap_layer_set_bitmap(layer_batt_img, img_battery_full);
         }
-            
-        if (charge_state.charge_percent < charge_percent) {
+
+        /*if (charge_state.charge_percent < charge_percent) {
             if (charge_state.charge_percent==20){
                 vibes_double_pulse();
             } else if(charge_state.charge_percent==10){
                 vibes_long_pulse();
             }
-        }
+        }*/ 
     }
     charge_percent = charge_state.charge_percent;
     
