@@ -180,13 +180,13 @@ void handle_init(void) {
     layer_line      = layer_create(GRect(8, 97, 128, 2));
 
     text_layer_set_background_color(layer_wday_text, GColorClear);
-    text_layer_set_font(layer_wday_text, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_21)));
+    text_layer_set_font(layer_wday_text, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
 
     text_layer_set_background_color(layer_date_text, GColorClear);
-    text_layer_set_font(layer_date_text, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_21)));
+    text_layer_set_font(layer_date_text, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
 
     text_layer_set_background_color(layer_time_text, GColorClear);
-    text_layer_set_font(layer_time_text, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_49)));
+    text_layer_set_font(layer_time_text, fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49));
 
     text_layer_set_background_color(layer_batt_text, GColorClear);
     text_layer_set_font(layer_batt_text, fonts_get_system_font(FONT_KEY_FONT_FALLBACK));
