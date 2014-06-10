@@ -23,6 +23,13 @@ TextLayer *layer_batt_text;
 int charge_percent = 0;
 int cur_day = -1;
 
+const uint32_t const segments[] = { 300, 100, 300, 100, 300 };
+VibePattern panicPattern = {
+  .durations = segments,
+  .num_segments = ARRAY_LENGTH(segments),
+};
+
+
 void handle_battery(BatteryChargeState charge_state) {
     static char battery_text[] = "100 ";
 
@@ -53,12 +60,20 @@ void handle_battery(BatteryChargeState charge_state) {
     text_layer_set_text(layer_batt_text, battery_text);
 }
 
-void handle_bluetooth(bool connected) {
+void update_bluetooth(bool connected) {
     if (connected) {
         bitmap_layer_set_bitmap(layer_conn_img, img_bt_connect);
     } else {
         bitmap_layer_set_bitmap(layer_conn_img, img_bt_disconnect);
-        vibes_long_pulse();
+    }
+}
+
+void handle_bluetooth(bool connected) {
+    update_bluetooth(connected);
+    
+    if (!connected) {
+        //vibes_long_pulse();
+        vibes_enqueue_custom_pattern(panicPattern);
     }
 }
 
@@ -129,7 +144,7 @@ void set_style(void) {
 
 void force_update(void) {
     handle_battery(battery_state_service_peek());
-    handle_bluetooth(bluetooth_connection_service_peek());
+    update_bluetooth(bluetooth_connection_service_peek());
     time_t now = time(NULL);
     update_time(localtime(&now));
 }
