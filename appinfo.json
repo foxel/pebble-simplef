@@ -1,52 +1,56 @@
 {
-    "uuid": "b95eda21-5326-4fb0-ba9f-d2b1d259f625",
-    "shortName": "Simple F",
-    "longName": "Simple F",
-    "companyName": "QuickFox",
-    "versionCode": 7,
-    "versionLabel": "1.6.1",
-    "watchapp": {
-        "watchface": true
-    },
-    "appKeys": {},
-    "resources": {
-        "media": [
-            {
-                "type": "png",
-                "name": "IMAGE_DISCONNECT",
-                "file": "images/phone-lost.png"
-            },
-            {
-                "type": "png",
-                "name": "IMAGE_CONNECT",
-                "file": "images/phone.png"
-            },
-            {
-                "type": "png",
-                "name": "IMAGE_BATTERY_FULL",
-                "file": "images/battery.png"
-            },
-            {
-                "type": "png",
-                "name": "IMAGE_BATTERY_HALF",
-                "file": "images/battery-half.png"
-            },
-            {
-                "type": "png",
-                "name": "IMAGE_BATTERY_LOW",
-                "file": "images/battery-low.png"
-            },
-            {
-                "type": "png",
-                "name": "IMAGE_BATTERY_CHARGE",
-                "file": "images/battery-charge.png"
-            },
-            {
-                "menuIcon": true,
-                "type": "png",
-                "name": "IMAGE_MENU_ICON",
-                "file": "images/menu_icon_simplicity.png"
-            }
-        ]
-    }
+  "uuid": "4243f1d0-c101-11e4-8dfc-aa07a5b093db",
+  "shortName": "Simple F",
+  "longName": "Simple F Color",
+  "companyName": "QuickFox",
+  "versionCode": 1,
+  "versionLabel": "1.0",
+  "watchapp": {
+    "watchface": true
+  },
+  "appKeys": {},
+  "resources": {
+    "media": [
+      {
+        "type": "png",
+        "name": "IMAGE_DISCONNECT",
+        "file": "images/phone-lost.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_CONNECT",
+        "file": "images/phone.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BATTERY_FULL",
+        "file": "images/battery.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BATTERY_HALF",
+        "file": "images/battery-half.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BATTERY_LOW",
+        "file": "images/battery-low.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BATTERY_CHARGE",
+        "file": "images/battery-charge.png"
+      },
+      {
+        "menuIcon": true,
+        "type": "png",
+        "name": "IMAGE_MENU_ICON",
+        "file": "images/menu_icon_simplicity.png"
+      }
+    ]
+  },
+  "targetPlatforms": [
+    "basalt"
+  ],
+  "sdkVersion": "3"
 }

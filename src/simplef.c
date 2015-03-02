@@ -1,8 +1,8 @@
 #include "pebble.h"
 #include "vars.h"
 
-GColor background_color = GColorWhite;
-GColor foreground_color = GColorBlack;
+GColor background_color;
+GColor foreground_color;
 GCompOp compositing_mode = GCompOpAssign;
 
 Window *window;
@@ -41,10 +41,13 @@ void handle_battery(BatteryChargeState charge_state) {
         snprintf(battery_text, sizeof(battery_text), "%d", charge_state.charge_percent);
         if (charge_state.charge_percent <= 20) {
             bitmap_layer_set_bitmap(layer_batt_img, img_battery_low);
+            text_layer_set_text_color(layer_batt_text, GColorRed);
         } else if (charge_state.charge_percent <= 50) {
             bitmap_layer_set_bitmap(layer_batt_img, img_battery_half);
+            text_layer_set_text_color(layer_batt_text, GColorYellow);
         } else {
             bitmap_layer_set_bitmap(layer_batt_img, img_battery_full);
+            text_layer_set_text_color(layer_batt_text, GColorGreen);
         }
 
         /*if (charge_state.charge_percent < charge_percent) {
@@ -127,11 +130,9 @@ void update_time(struct tm *tick_time) {
 }
 
 void set_style(void) {
-    bool inverse = persist_read_bool(STYLE_KEY);
-    
-    background_color  = inverse ? GColorWhite : GColorBlack;
-    foreground_color  = inverse ? GColorBlack : GColorWhite;
-    compositing_mode  = inverse ? GCompOpAssign : GCompOpAssignInverted;
+    background_color  = GColorBlack;
+    foreground_color  = GColorGreen;
+    compositing_mode  = GCompOpAssign;
     
     window_set_background_color(window, background_color);
     text_layer_set_text_color(layer_time_text, foreground_color);
@@ -158,18 +159,6 @@ void handle_deinit(void) {
     battery_state_service_unsubscribe();
     bluetooth_connection_service_unsubscribe();
     app_focus_service_unsubscribe();
-    accel_tap_service_unsubscribe();
-}
-
-void handle_tap(AccelAxisType axis, int32_t direction) {
-    persist_write_bool(STYLE_KEY, !persist_read_bool(STYLE_KEY));
-    set_style();
-    force_update();
-    vibes_long_pulse();
-    accel_tap_service_unsubscribe();
-}
-
-void handle_tap_timeout(void* data) {
     accel_tap_service_unsubscribe();
 }
 
@@ -208,8 +197,13 @@ void handle_init(void) {
     text_layer_set_text_alignment(layer_batt_text, GTextAlignmentCenter);
 
     bitmap_layer_set_bitmap(layer_batt_img, img_battery_full);
+    //bitmap_layer_set_compositing_mode(layer_batt_img, GCompOpSet);
     bitmap_layer_set_bitmap(layer_conn_img, img_bt_connect);
-
+    //bitmap_layer_set_compositing_mode(layer_conn_img, GCompOpSet);
+    #ifdef PBL_COLOR
+    //bitmap_layer_set_background_color(layer_conn_img, GColorGreen);
+    //bitmap_layer_set_background_color(layer_batt_img, GColorGreen);
+    #endif
     layer_set_update_proc(layer_line, line_layer_update_callback);
 
     // composing layers
@@ -231,8 +225,6 @@ void handle_init(void) {
     bluetooth_connection_service_subscribe(&handle_bluetooth);
     app_focus_service_subscribe(&handle_appfocus);
     tick_timer_service_subscribe(MINUTE_UNIT, handle_minute_tick);
-    accel_tap_service_subscribe(handle_tap);
-    app_timer_register(2000, handle_tap_timeout, NULL);
 
     // draw first frame
     force_update();
@@ -240,6 +232,9 @@ void handle_init(void) {
 
 
 int main(void) {
+    background_color = GColorWhite;
+    foreground_color = GColorBlack;
+
     handle_init();
 
     app_event_loop();
