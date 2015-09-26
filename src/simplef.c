@@ -1,8 +1,8 @@
 #include "pebble.h"
 #include "vars.h"
 
-GColor background_color = GColorWhite;
-GColor foreground_color = GColorBlack;
+GColor background_color;
+GColor foreground_color;
 GCompOp compositing_mode = GCompOpAssign;
 
 Window *window;
@@ -174,6 +174,9 @@ void handle_tap_timeout(void* data) {
 }
 
 void handle_init(void) {
+    background_color = GColorWhite;
+    foreground_color = GColorBlack;
+
     window = window_create();
     window_stack_push(window, true /* Animated */);
 
