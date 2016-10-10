@@ -1,0 +1,111 @@
+{
+  "uuid": "b95eda21-5326-4fb0-ba9f-d2b1d259f625",
+  "shortName": "Simple F",
+  "longName": "Simple F",
+  "companyName": "QuickFox",
+  "versionCode": 8,
+  "versionLabel": "1.7",
+  "watchapp": {
+    "watchface": true
+  },
+  "appKeys": {},
+  "resources": {
+    "media": [
+      {
+        "file": "images/menu_icon.png",
+        "menuIcon": true,
+        "name": "IMAGE_MENU_ICON",
+        "type": "pbi"
+      },
+      {
+        "file": "images/battery-charge.png",
+        "name": "IMAGE_BATTERY_CHARGE",
+        "type": "bitmap", 
+        "memoryFormat": "1Bit",
+        "targetPlatforms": ["aplite", "diorite"]
+      },
+      {
+        "file": "images/battery-low.png",
+        "name": "IMAGE_BATTERY_LOW",
+        "type": "bitmap", 
+        "memoryFormat": "1Bit",
+        "targetPlatforms": ["aplite", "diorite"]
+      },
+      {
+        "file": "images/battery-half.png",
+        "name": "IMAGE_BATTERY_HALF",
+        "type": "bitmap", 
+        "memoryFormat": "1Bit",
+        "targetPlatforms": ["aplite", "diorite"]
+      },
+      {
+        "file": "images/battery.png",
+        "name": "IMAGE_BATTERY_FULL",
+        "type": "bitmap", 
+        "memoryFormat": "1Bit",
+        "targetPlatforms": ["aplite", "diorite"]
+      },
+      {
+        "file": "images/phone.png",
+        "name": "IMAGE_CONNECT",
+        "type": "bitmap", 
+        "memoryFormat": "1Bit",
+        "targetPlatforms": ["aplite", "diorite"]
+      },
+      {
+        "file": "images/phone-lost.png",
+        "name": "IMAGE_DISCONNECT",
+        "type": "bitmap", 
+        "memoryFormat": "1Bit",
+        "targetPlatforms": ["aplite", "diorite"]
+      },
+      {
+        "file": "images/battery-charge.png",
+        "name": "IMAGE_BATTERY_CHARGE",
+        "type": "bitmap", 
+        "memoryFormat": "1BitPalette",
+        "targetPlatforms": ["basalt"]
+      },
+      {
+        "file": "images/battery-low.png",
+        "name": "IMAGE_BATTERY_LOW",
+        "type": "bitmap", 
+        "memoryFormat": "1BitPalette",
+        "targetPlatforms": ["basalt"]
+      },
+      {
+        "file": "images/battery-half.png",
+        "name": "IMAGE_BATTERY_HALF",
+        "type": "bitmap", 
+        "memoryFormat": "1BitPalette",
+        "targetPlatforms": ["basalt"]
+      },
+      {
+        "file": "images/battery.png",
+        "name": "IMAGE_BATTERY_FULL",
+        "type": "bitmap", 
+        "memoryFormat": "1BitPalette",
+        "targetPlatforms": ["basalt"]
+      },
+      {
+        "file": "images/phone.png",
+        "name": "IMAGE_CONNECT",
+        "type": "bitmap", 
+        "memoryFormat": "1BitPalette",
+        "targetPlatforms": ["basalt"]
+      },
+      {
+        "file": "images/phone-lost.png",
+        "name": "IMAGE_DISCONNECT",
+        "type": "bitmap", 
+        "memoryFormat": "1BitPalette",
+        "targetPlatforms": ["basalt"]
+      }
+    ]
+  },
+  "targetPlatforms": [
+    "aplite",
+    "basalt"
+  ],
+  "sdkVersion": "3"
+}

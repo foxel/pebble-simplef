@@ -1,0 +1,178 @@
+{
+  "version": "1.3.0",
+  "author": "QuickFox",
+  "name": "Simple F Termo",
+  "private": true,
+  "dependencies": {},
+  "keywords": [
+    "pebble-app"
+  ],
+  "pebble": {
+    "displayName": "Simple F TermoPogoda",
+    "uuid": "565fb6c9-cae8-450b-a041-70dd5218705c",
+    "sdkVersion": "3",
+    "resources": {
+      "media": [
+        {
+          "file": "images/num_sep.png",
+          "name": "IMAGE_NUM_SEP",
+          "type": "pbi"
+        },
+        {
+          "file": "images/num_9.png",
+          "name": "IMAGE_NUM_9",
+          "type": "pbi"
+        },
+        {
+          "file": "images/num_8.png",
+          "name": "IMAGE_NUM_8",
+          "type": "pbi"
+        },
+        {
+          "file": "images/num_7.png",
+          "name": "IMAGE_NUM_7",
+          "type": "pbi"
+        },
+        {
+          "file": "images/num_6.png",
+          "name": "IMAGE_NUM_6",
+          "type": "pbi"
+        },
+        {
+          "file": "images/num_5.png",
+          "name": "IMAGE_NUM_5",
+          "type": "pbi"
+        },
+        {
+          "file": "images/num_4.png",
+          "name": "IMAGE_NUM_4",
+          "type": "pbi"
+        },
+        {
+          "file": "images/num_3.png",
+          "name": "IMAGE_NUM_3",
+          "type": "pbi"
+        },
+        {
+          "file": "images/num_2.png",
+          "name": "IMAGE_NUM_2",
+          "type": "pbi"
+        },
+        {
+          "file": "images/num_1.png",
+          "name": "IMAGE_NUM_1",
+          "type": "pbi"
+        },
+        {
+          "file": "images/num_0.png",
+          "name": "IMAGE_NUM_0",
+          "type": "pbi"
+        },
+        {
+          "file": "images/menu_icon.png",
+          "menuIcon": true,
+          "name": "IMAGE_MENU_ICON",
+          "type": "pbi"
+        },
+        {
+          "file": "images/battery-charge.png",
+          "name": "IMAGE_BATTERY_CHARGE",
+          "type": "bitmap",
+          "memoryFormat": "1Bit",
+          "targetPlatforms": ["aplite", "diorite"]
+        },
+        {
+          "file": "images/battery-low.png",
+          "name": "IMAGE_BATTERY_LOW",
+          "type": "bitmap",
+          "memoryFormat": "1Bit",
+          "targetPlatforms": ["aplite", "diorite"]
+        },
+        {
+          "file": "images/battery-half.png",
+          "name": "IMAGE_BATTERY_HALF",
+          "type": "bitmap",
+          "memoryFormat": "1Bit",
+          "targetPlatforms": ["aplite", "diorite"]
+        },
+        {
+          "file": "images/battery.png",
+          "name": "IMAGE_BATTERY_FULL",
+          "type": "bitmap",
+          "memoryFormat": "1Bit",
+          "targetPlatforms": ["aplite", "diorite"]
+        },
+        {
+          "file": "images/phone.png",
+          "name": "IMAGE_CONNECT",
+          "type": "bitmap",
+          "memoryFormat": "1Bit",
+          "targetPlatforms": ["aplite", "diorite"]
+        },
+        {
+          "file": "images/phone-lost.png",
+          "name": "IMAGE_DISCONNECT",
+          "type": "bitmap",
+          "memoryFormat": "1Bit",
+          "targetPlatforms": ["aplite", "diorite"]
+        },
+        {
+          "file": "images/battery-charge.png",
+          "name": "IMAGE_BATTERY_CHARGE",
+          "type": "bitmap",
+          "memoryFormat": "1BitPalette",
+          "targetPlatforms": ["basalt"]
+        },
+        {
+          "file": "images/battery-low.png",
+          "name": "IMAGE_BATTERY_LOW",
+          "type": "bitmap",
+          "memoryFormat": "1BitPalette",
+          "targetPlatforms": ["basalt"]
+        },
+        {
+          "file": "images/battery-half.png",
+          "name": "IMAGE_BATTERY_HALF",
+          "type": "bitmap",
+          "memoryFormat": "1BitPalette",
+          "targetPlatforms": ["basalt"]
+        },
+        {
+          "file": "images/battery.png",
+          "name": "IMAGE_BATTERY_FULL",
+          "type": "bitmap",
+          "memoryFormat": "1BitPalette",
+          "targetPlatforms": ["basalt"]
+        },
+        {
+          "file": "images/phone.png",
+          "name": "IMAGE_CONNECT",
+          "type": "bitmap",
+          "memoryFormat": "1BitPalette",
+          "targetPlatforms": ["basalt"]
+        },
+        {
+          "file": "images/phone-lost.png",
+          "name": "IMAGE_DISCONNECT",
+          "type": "bitmap",
+          "memoryFormat": "1BitPalette",
+          "targetPlatforms": ["basalt"]
+        }
+      ]
+    },
+    "projectType": "native",
+    "messageKeys": ["TEMPERATURE"],
+    "enableMultiJS": true,
+    "watchapp": {
+      "onlyShownOnCommunication": false,
+      "hiddenApp": false,
+      "watchface": true
+    },
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "diorite"
+    ],
+    "capabilities": []
+  }
+}
