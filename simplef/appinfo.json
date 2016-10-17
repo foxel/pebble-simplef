@@ -3,8 +3,8 @@
   "shortName": "Simple F",
   "longName": "Simple F",
   "companyName": "QuickFox",
-  "versionCode": 8,
-  "versionLabel": "1.7",
+  "versionCode": 9,
+  "versionLabel": "1.8",
   "watchapp": {
     "watchface": true
   },
@@ -105,7 +105,8 @@
   },
   "targetPlatforms": [
     "aplite",
-    "basalt"
+    "basalt",
+    "diorite"
   ],
   "sdkVersion": "3"
 }
