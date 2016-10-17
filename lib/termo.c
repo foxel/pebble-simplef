@@ -76,8 +76,18 @@ void termo_update_time(struct tm *tick_time) {
 }
 
 void termo_init(Window* window) {
+    Layer *window_layer = window_get_root_layer(window);
+    // Get the total available screen real-estate
+    GRect bounds = layer_get_bounds(window_layer);
+    int padding_v = PBL_IF_ROUND_ELSE(16, 8);
+
     // Create temperature Layer
-    s_weather_layer = text_layer_create(GRect(20, 8, 144-40, 23));
+    s_weather_layer = text_layer_create(GRect(
+        (bounds.size.w - 60)/2,
+        PBL_IF_ROUND_ELSE(16, 8),
+        60,
+        23
+    ));
     text_layer_set_background_color(s_weather_layer, GColorClear);
     text_layer_set_text_alignment(s_weather_layer, GTextAlignmentCenter);
     text_layer_set_text(s_weather_layer, "...");
@@ -91,7 +101,7 @@ void termo_init(Window* window) {
     }
 
     text_layer_set_font(s_weather_layer, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
-    layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_weather_layer));
+    layer_add_child(window_layer, text_layer_get_layer(s_weather_layer));
 
     // Register callbacks
     app_message_register_inbox_received(inbox_received_callback);

@@ -2,6 +2,9 @@
 #include "vars.h"
 #include "status.h"
 
+#define BATT_IMAGE_SIZE 16
+#define CONN_IMAGE_SIZE 20
+
 static BitmapLayer *layer_batt_img;
 static BitmapLayer *layer_conn_img;
 
@@ -28,35 +31,27 @@ static void handle_battery(BatteryChargeState charge_state) {
         bitmap_layer_set_bitmap(layer_batt_img, img_battery_charge);
 
         snprintf(battery_text, sizeof(battery_text), "+%d", charge_state.charge_percent);
-        #if defined(PBL_COLOR)
+        #ifdef PBL_COLOR
         text_layer_set_text_color(layer_batt_text, GColorGreen);
         #endif
     } else {
         snprintf(battery_text, sizeof(battery_text), "%d", charge_state.charge_percent);
         if (charge_state.charge_percent <= 20) {
             bitmap_layer_set_bitmap(layer_batt_img, img_battery_low);
-            #if defined(PBL_COLOR)
+            #ifdef PBL_COLOR
             text_layer_set_text_color(layer_batt_text, GColorRed);
             #endif
         } else if (charge_state.charge_percent <= 50) {
             bitmap_layer_set_bitmap(layer_batt_img, img_battery_half);
-            #if defined(PBL_COLOR)
+            #ifdef PBL_COLOR
             text_layer_set_text_color(layer_batt_text, GColorYellow);
             #endif
         } else {
             bitmap_layer_set_bitmap(layer_batt_img, img_battery_full);
-            #if defined(PBL_COLOR)
+            #ifdef PBL_COLOR
             text_layer_set_text_color(layer_batt_text, GColorGreen);
             #endif
         }
-
-        /*if (charge_state.charge_percent < charge_percent) {
-            if (charge_state.charge_percent==20){
-                vibes_double_pulse();
-            } else if(charge_state.charge_percent==10){
-                vibes_long_pulse();
-            }
-        }*/ 
     }
     charge_percent = charge_state.charge_percent;
     
@@ -89,7 +84,7 @@ static void handle_appfocus(bool in_focus){
 
 // public methods
 void status_set_style(bool inverse) {
-    #if defined(PBL_COLOR)
+    #ifdef PBL_COLOR
     GCompOp compositing_mode = GCompOpSet;
     #else
     text_layer_set_text_color(layer_batt_text, inverse ? GColorBlack : GColorWhite);
@@ -107,6 +102,12 @@ void status_update(void) {
 }
 
 void status_init(Window* window) {
+    Layer *window_layer = window_get_root_layer(window);
+    // Get the total available screen real-estate
+    GRect bounds = layer_get_bounds(window_layer);
+    int padding_v = PBL_IF_ROUND_ELSE(18, 10);
+    int padding_h = PBL_IF_ROUND_ELSE(34, 6);
+
     // resources
     img_bt_connect     = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_CONNECT);
     img_bt_disconnect  = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_DISCONNECT);
@@ -116,9 +117,9 @@ void status_init(Window* window) {
     img_battery_charge = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_CHARGE);
 
     // layers
-    layer_batt_text = text_layer_create(GRect(3,20,30,20));
-    layer_batt_img  = bitmap_layer_create(GRect(10, 10, 16, 16));
-    layer_conn_img  = bitmap_layer_create(GRect(118, 12, 20, 20));
+    layer_batt_text = text_layer_create(GRect(padding_h - 3, padding_v + 10, BATT_IMAGE_SIZE + 14, 20));
+    layer_batt_img  = bitmap_layer_create(GRect(padding_h + 4, padding_v, BATT_IMAGE_SIZE, BATT_IMAGE_SIZE));
+    layer_conn_img  = bitmap_layer_create(GRect(bounds.size.w - CONN_IMAGE_SIZE - padding_h, padding_v + 2, CONN_IMAGE_SIZE, CONN_IMAGE_SIZE));
 
     text_layer_set_background_color(layer_batt_text, GColorClear);
     text_layer_set_font(layer_batt_text, fonts_get_system_font(FONT_KEY_GOTHIC_14));
@@ -128,8 +129,6 @@ void status_init(Window* window) {
     bitmap_layer_set_bitmap(layer_conn_img, img_bt_connect);
 
     // composing layers
-    Layer *window_layer = window_get_root_layer(window);
-
     layer_add_child(window_layer, bitmap_layer_get_layer(layer_batt_img));
     layer_add_child(window_layer, bitmap_layer_get_layer(layer_conn_img));
     layer_add_child(window_layer, text_layer_get_layer(layer_batt_text));

@@ -1,15 +1,15 @@
 {
-  "version": "1.4.0",
+  "version": "1.8.0",
   "author": "QuickFox",
-  "name": "Simple F Termo",
+  "name": "Simple F Big",
   "private": true,
   "dependencies": {},
   "keywords": [
     "pebble-app"
   ],
   "pebble": {
-    "displayName": "Simple F TermoPogoda",
-    "uuid": "565fb6c9-cae8-450b-a041-70dd5218705c",
+    "displayName": "Simple F Big",
+    "uuid": "b39afa77-b2ee-47af-822e-26b366f60409",
     "sdkVersion": "3",
     "resources": {
       "media": [
@@ -161,8 +161,8 @@
       ]
     },
     "projectType": "native",
-    "messageKeys": ["TEMPERATURE"],
-    "enableMultiJS": true,
+    "messageKeys": {},
+    "enableMultiJS": false,
     "watchapp": {
       "onlyShownOnCommunication": false,
       "hiddenApp": false,

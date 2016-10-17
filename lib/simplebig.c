@@ -28,8 +28,8 @@ static BitmapLayer *digit_layers[TOTAL_IMAGE_SLOTS];
 static int image_slot_state[TOTAL_IMAGE_SLOTS] = {EMPTY_SLOT, EMPTY_SLOT, EMPTY_SLOT, EMPTY_SLOT};
 
 static TextLayer *layer_date_text;
-static TextLayer *layer_wday_text;
 static Layer *layer_line;
+static Layer *layer_line_bott;
 
 static BitmapLayer *layer_sep_img;
 static GBitmap *img_dig_separator;
@@ -100,6 +100,7 @@ static void layer_set_y(Layer *layer, int y) {
 
 // Public methods
 void simplebig_update_bounds(void) {
+    #ifndef PBL_ROUND
     // Get the full size of the screen
     GRect full_bounds = layer_get_bounds(main_window_layer);
     // Get the total available screen real-estate
@@ -115,25 +116,21 @@ void simplebig_update_bounds(void) {
     // Hide the date if screen is obstructed
     bool hide_date = !grect_equal(&full_bounds, &bounds);
     layer_set_hidden(text_layer_get_layer(layer_date_text), hide_date);
-    layer_set_hidden(text_layer_get_layer(layer_wday_text), hide_date);
     layer_set_hidden(layer_line, hide_date);
+    #endif
 }
 
 void simplebig_update_time(struct tm *tick_time) {
     // Need to be static because they're used by the system later.
-    static char date_text[] = "Xxxxxxxxx 00";
-    static char wday_text[] = "Xxxxxxxxx";
+    static char date_text[] = "Xxxxxxxxx\nXxxxxxxxx 00";
     
     // Only update the date when it's changed.
     int new_cur_day = tick_time->tm_year*1000 + tick_time->tm_yday;
     if (new_cur_day != cur_day) {
         cur_day = new_cur_day;
         
-        strftime(date_text, sizeof(date_text), "%B %e", tick_time);
+        strftime(date_text, sizeof(date_text), PBL_IF_ROUND_ELSE("%a, %b %e", "%A\n%B %e"), tick_time);
         text_layer_set_text(layer_date_text, date_text);
-
-        strftime(wday_text, sizeof(wday_text), "%A", tick_time);
-        text_layer_set_text(layer_wday_text, wday_text);
     }
 
     display_time_value(get_display_hour(tick_time->tm_hour), 0, clock_is_24h_style());
@@ -144,7 +141,6 @@ void simplebig_set_style(bool inverse) {
     foreground_color  = inverse ? GColorBlack : GColorWhite;
     compositing_mode  = inverse ? GCompOpAssign : GCompOpAssignInverted;
     
-    text_layer_set_text_color(layer_wday_text, foreground_color);
     text_layer_set_text_color(layer_date_text, foreground_color);
     bitmap_layer_set_compositing_mode(layer_sep_img, compositing_mode);
     for (int i = 0; i < 4; i++) {
@@ -161,42 +157,54 @@ void simplebig_init(Window* window) {
     GRect bounds = layer_get_bounds(main_window_layer);
 
     int padding = (bounds.size.w - 144) / 2;
+    int time_display_top = PBL_IF_ROUND_ELSE((bounds.size.h - DIGIT_IMAGE_HEIGHT)/2, bounds.size.h - DIGIT_IMAGE_HEIGHT);
+    int time_display_bott = time_display_top + DIGIT_IMAGE_HEIGHT;
+    int date_displat_top = PBL_IF_ROUND_ELSE(time_display_bott + 2, time_display_top - 1 - 48);
 
     // resources
     img_dig_separator  = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_NUM_SEP);
 
     // layers
-    layer_wday_text = text_layer_create(GRect(20, 35, bounds.size.w-40, 58-35));
-    layer_date_text = text_layer_create(GRect(5, 58, bounds.size.w-10, 84-58));
+    layer_date_text = text_layer_create(GRect(
+        5,
+        date_displat_top,
+        bounds.size.w-10,
+        PBL_IF_ROUND_ELSE(24, 48)
+    ));
 
-    text_layer_set_text_alignment(layer_wday_text, GTextAlignmentCenter);
     text_layer_set_text_alignment(layer_date_text, GTextAlignmentCenter);
 
+    
     layer_sep_img   = bitmap_layer_create(GRect(
         padding + DIGIT_IMAGE_WIDTH*2,
-        bounds.size.h - DIGIT_IMAGE_HEIGHT,
+        time_display_top,
         8,
         DIGIT_IMAGE_HEIGHT
     ));
     layer_line      = layer_create(GRect(
         padding + 8,
-        bounds.size.h - DIGIT_IMAGE_HEIGHT,
+        time_display_top,
         128,
         2
     ));
+    #ifdef PBL_ROUND
+    layer_line_bott      = layer_create(GRect(
+        padding + 8,
+        time_display_bott - 2,
+        128,
+        2
+    ));
+    #endif
 
     // time layers
     for (int i = 0; i < 4; i++) {
         digit_layers[i] = bitmap_layer_create(GRect(
             padding + (i % 2) * DIGIT_IMAGE_WIDTH + (i / 2) * (144-DIGIT_IMAGE_WIDTH*2),
-            bounds.size.h - DIGIT_IMAGE_HEIGHT,
+            time_display_top,
             DIGIT_IMAGE_WIDTH,
             DIGIT_IMAGE_HEIGHT
         ));
     }
-
-    text_layer_set_background_color(layer_wday_text, GColorClear);
-    text_layer_set_font(layer_wday_text, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
 
     text_layer_set_background_color(layer_date_text, GColorClear);
     text_layer_set_font(layer_date_text, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
@@ -204,17 +212,20 @@ void simplebig_init(Window* window) {
     bitmap_layer_set_bitmap(layer_sep_img,  img_dig_separator);
 
     layer_set_update_proc(layer_line, line_layer_update_callback);
+    #ifdef PBL_ROUND
+    layer_set_update_proc(layer_line_bott, line_layer_update_callback);
+    #endif
 
     // composing layers
-    Layer *window_layer = window_get_root_layer(window);
-
-    layer_add_child(window_layer, text_layer_get_layer(layer_wday_text));
-    layer_add_child(window_layer, text_layer_get_layer(layer_date_text));
+    layer_add_child(main_window_layer, text_layer_get_layer(layer_date_text));
     for (int i = 0; i < 4; i++) {
-        layer_add_child(window_layer, bitmap_layer_get_layer(digit_layers[i]));
+        layer_add_child(main_window_layer, bitmap_layer_get_layer(digit_layers[i]));
     }
-    layer_add_child(window_layer, bitmap_layer_get_layer(layer_sep_img));
-    layer_add_child(window_layer, layer_line);
+    layer_add_child(main_window_layer, bitmap_layer_get_layer(layer_sep_img));
+    layer_add_child(main_window_layer, layer_line);
+    #ifdef PBL_ROUND
+    layer_add_child(main_window_layer, layer_line_bott);
+    #endif
 
     for (int i = 0; i < 4; i++) {
         load_digit_image_into_slot(i, 0);
@@ -222,11 +233,13 @@ void simplebig_init(Window* window) {
 }
 
 void simplebig_deinit(void) {
-    text_layer_destroy(layer_wday_text);
     text_layer_destroy(layer_date_text);
     bitmap_layer_destroy(layer_sep_img);
     gbitmap_destroy(img_dig_separator);
     layer_destroy(layer_line);
+    #ifdef PBL_ROUND
+    layer_destroy(layer_line_bott);
+    #endif
         
     for (int i = 0; i < 4; i++) {
         bitmap_layer_destroy(digit_layers[i]);
