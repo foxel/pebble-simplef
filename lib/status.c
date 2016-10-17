@@ -106,7 +106,7 @@ void status_init(Window* window) {
     // Get the total available screen real-estate
     GRect bounds = layer_get_bounds(window_layer);
     int padding_v = PBL_IF_ROUND_ELSE(18, 10);
-    int padding_h = PBL_IF_ROUND_ELSE(34, 6);
+    int padding_h = PBL_IF_ROUND_ELSE(STATUS_ROUND_PADDING_H, 6);
 
     // resources
     img_bt_connect     = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_CONNECT);
