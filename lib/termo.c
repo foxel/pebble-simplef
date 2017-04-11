@@ -10,23 +10,20 @@ static int termo_timestamp = 0;
 
 static char weather_layer_buffer[] = "-18.50C";
 
-static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
+void termo_inbox_received(DictionaryIterator *iterator, void *context) {
 
-    // Read first item
+    // Look for item
     Tuple *t = dict_find(iterator, MESSAGE_KEY_TEMPERATURE);
  
-    // For all items
+    // if there are some data
     if (t) {
         snprintf(weather_layer_buffer, sizeof(weather_layer_buffer), "%s", t->value->cstring);
         termo_timestamp = time(NULL);
         persist_write_string(TERMO_KEY, weather_layer_buffer);
         persist_write_int(TERMO_TS_KEY, termo_timestamp);
-    } else {
-        APP_LOG(APP_LOG_LEVEL_ERROR, "No temperature payload");
+        // display
+        text_layer_set_text(s_weather_layer, weather_layer_buffer);
     }
-
-    // display
-    text_layer_set_text(s_weather_layer, weather_layer_buffer);
 }
 
 static void check_termo_age(void) {
@@ -36,20 +33,6 @@ static void check_termo_age(void) {
     }
 }
  
-static void inbox_dropped_callback(AppMessageResult reason, void *context) {
-    APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
-    check_termo_age();
-}
-
-static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
-    APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
-}
-
-static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
-    APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
-}
-
-
 // public methods
 void termo_set_style(bool inverse) {
     GColor foreground_color  = inverse ? GColorBlack : GColorWhite;
@@ -83,9 +66,9 @@ void termo_init(Window* window) {
 
     // Create temperature Layer
     s_weather_layer = text_layer_create(GRect(
-        (bounds.size.w - 60)/2,
+        (bounds.size.w - 80)/2,
         PBL_IF_ROUND_ELSE(16, 8),
-        60,
+        80,
         23
     ));
     text_layer_set_background_color(s_weather_layer, GColorClear);
@@ -103,17 +86,6 @@ void termo_init(Window* window) {
     text_layer_set_font(s_weather_layer, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
     layer_add_child(window_layer, text_layer_get_layer(s_weather_layer));
 
-    // Register callbacks
-    app_message_register_inbox_received(inbox_received_callback);
-    app_message_register_inbox_dropped(inbox_dropped_callback);
-    app_message_register_outbox_failed(outbox_failed_callback);
-    app_message_register_outbox_sent(outbox_sent_callback);
-
-    // Open AppMessage
-    AppMessageResult result = app_message_open(APP_MESSAGE_INBOX_SIZE_MINIMUM, APP_MESSAGE_OUTBOX_SIZE_MINIMUM);
-    if (result != APP_MSG_OK) {
-        APP_LOG(APP_LOG_LEVEL_ERROR, "Can't open inbox");
-    }
 }
 
 void termo_deinit(void) {

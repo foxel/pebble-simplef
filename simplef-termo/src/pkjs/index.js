@@ -1,1 +1,2 @@
-../../../lib/termo.js
+require('./termo')();
+require('./clay')();

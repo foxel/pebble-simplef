@@ -1,9 +1,12 @@
 {
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": "QuickFox",
-  "name": "Simple F Termo",
+  "name": "simplef-termo",
+  "description": "Simple F Termo",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "pebble-clay": "^1.0.4"
+  },
   "keywords": [
     "pebble-app"
   ],
@@ -79,89 +82,128 @@
           "name": "IMAGE_BATTERY_CHARGE",
           "type": "bitmap",
           "memoryFormat": "1Bit",
-          "targetPlatforms": ["aplite", "diorite"]
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
         },
         {
           "file": "images/battery-low.png",
           "name": "IMAGE_BATTERY_LOW",
           "type": "bitmap",
           "memoryFormat": "1Bit",
-          "targetPlatforms": ["aplite", "diorite"]
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
         },
         {
           "file": "images/battery-half.png",
           "name": "IMAGE_BATTERY_HALF",
           "type": "bitmap",
           "memoryFormat": "1Bit",
-          "targetPlatforms": ["aplite", "diorite"]
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
         },
         {
           "file": "images/battery.png",
           "name": "IMAGE_BATTERY_FULL",
           "type": "bitmap",
           "memoryFormat": "1Bit",
-          "targetPlatforms": ["aplite", "diorite"]
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
         },
         {
           "file": "images/phone.png",
           "name": "IMAGE_CONNECT",
           "type": "bitmap",
           "memoryFormat": "1Bit",
-          "targetPlatforms": ["aplite", "diorite"]
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
         },
         {
           "file": "images/phone-lost.png",
           "name": "IMAGE_DISCONNECT",
           "type": "bitmap",
           "memoryFormat": "1Bit",
-          "targetPlatforms": ["aplite", "diorite"]
+          "targetPlatforms": [
+            "aplite",
+            "diorite"
+          ]
         },
         {
           "file": "images/battery-charge.png",
           "name": "IMAGE_BATTERY_CHARGE",
           "type": "bitmap",
           "memoryFormat": "1BitPalette",
-          "targetPlatforms": ["basalt", "chalk"]
+          "targetPlatforms": [
+            "basalt",
+            "chalk"
+          ]
         },
         {
           "file": "images/battery-low.png",
           "name": "IMAGE_BATTERY_LOW",
           "type": "bitmap",
           "memoryFormat": "1BitPalette",
-          "targetPlatforms": ["basalt", "chalk"]
+          "targetPlatforms": [
+            "basalt",
+            "chalk"
+          ]
         },
         {
           "file": "images/battery-half.png",
           "name": "IMAGE_BATTERY_HALF",
           "type": "bitmap",
           "memoryFormat": "1BitPalette",
-          "targetPlatforms": ["basalt", "chalk"]
+          "targetPlatforms": [
+            "basalt",
+            "chalk"
+          ]
         },
         {
           "file": "images/battery.png",
           "name": "IMAGE_BATTERY_FULL",
           "type": "bitmap",
           "memoryFormat": "1BitPalette",
-          "targetPlatforms": ["basalt", "chalk"]
+          "targetPlatforms": [
+            "basalt",
+            "chalk"
+          ]
         },
         {
           "file": "images/phone.png",
           "name": "IMAGE_CONNECT",
           "type": "bitmap",
           "memoryFormat": "1BitPalette",
-          "targetPlatforms": ["basalt", "chalk"]
+          "targetPlatforms": [
+            "basalt",
+            "chalk"
+          ]
         },
         {
           "file": "images/phone-lost.png",
           "name": "IMAGE_DISCONNECT",
           "type": "bitmap",
           "memoryFormat": "1BitPalette",
-          "targetPlatforms": ["basalt", "chalk"]
+          "targetPlatforms": [
+            "basalt",
+            "chalk"
+          ]
         }
       ]
     },
     "projectType": "native",
-    "messageKeys": ["TEMPERATURE"],
+    "messageKeys": [
+      "TEMPERATURE",
+      "INVERSE"
+    ],
     "enableMultiJS": true,
     "watchapp": {
       "onlyShownOnCommunication": false,
@@ -174,6 +216,8 @@
       "chalk",
       "diorite"
     ],
-    "capabilities": []
+    "capabilities": [
+      "configurable"
+    ]
   }
 }
