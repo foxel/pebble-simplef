@@ -53,6 +53,34 @@ static void handle_unobstructed_change(AnimationProgress progress, void *context
     update_bounds();
 }
 
+// MESSAGING
+static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
+
+    // Look for item
+    Tuple *t = dict_find(iterator, MESSAGE_KEY_INVERSE);
+ 
+    // For all items
+    if (t) {
+        persist_write_bool(STYLE_KEY, t->value->int32 == 1);
+        set_style();
+        force_update();
+        vibes_long_pulse();
+    }
+}
+
+static void inbox_dropped_callback(AppMessageResult reason, void *context) {
+    APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
+}
+
+static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
+    APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
+}
+
+static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
+    APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
+}
+// /MESSAGING
+
 static void handle_init(void) {
     window = window_create();
     window_stack_push(window, true /* Animated */);
@@ -61,10 +89,20 @@ static void handle_init(void) {
     simplebig_init(window);
     status_init(window);
 
+    // Register callbacks
+    app_message_register_inbox_received(inbox_received_callback);
+    app_message_register_inbox_dropped(inbox_dropped_callback);
+    app_message_register_outbox_failed(outbox_failed_callback);
+    app_message_register_outbox_sent(outbox_sent_callback);
+
+    // Open AppMessage
+    AppMessageResult result = app_message_open(APP_MESSAGE_INBOX_SIZE_MINIMUM, APP_MESSAGE_OUTBOX_SIZE_MINIMUM);
+    if (result != APP_MSG_OK) {
+        APP_LOG(APP_LOG_LEVEL_ERROR, "Can't open inbox");
+    }
+
     // handlers
     tick_timer_service_subscribe(MINUTE_UNIT, handle_minute_tick);
-    accel_tap_service_subscribe(handle_tap);
-    app_timer_register(2000, handle_tap_timeout, NULL);
     UnobstructedAreaHandlers ua_handler = {
         .change = handle_unobstructed_change
     };
@@ -82,7 +120,6 @@ static void handle_deinit(void) {
     simplebig_deinit();
     
     tick_timer_service_unsubscribe();
-    accel_tap_service_unsubscribe();
     
     window_destroy(window);
 }

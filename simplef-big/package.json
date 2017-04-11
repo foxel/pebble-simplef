@@ -1,9 +1,12 @@
 {
-  "version": "1.9.0",
+  "version": "1.10.0",
   "author": "QuickFox",
-  "name": "Simple F Big",
+  "name": "simplef-big",
+  "description": "Simple F Big",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "pebble-clay": "^1.0.4"
+  },
   "keywords": [
     "pebble-app"
   ],
@@ -161,8 +164,10 @@
       ]
     },
     "projectType": "native",
-    "messageKeys": {},
-    "enableMultiJS": false,
+    "messageKeys": [
+      "INVERSE"
+    ],
+    "enableMultiJS": true,
     "watchapp": {
       "onlyShownOnCommunication": false,
       "hiddenApp": false,
@@ -174,6 +179,8 @@
       "chalk",
       "diorite"
     ],
-    "capabilities": []
+    "capabilities": [
+      "configurable"
+    ]
   }
 }
