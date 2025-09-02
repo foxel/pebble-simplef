@@ -1,5 +1,5 @@
 {
-  "version": "1.10.0",
+  "version": "1.11.0",
   "author": "QuickFox",
   "name": "simplef-big",
   "description": "Simple F Big",
@@ -124,42 +124,42 @@
           "name": "IMAGE_BATTERY_CHARGE",
           "type": "bitmap",
           "memoryFormat": "1BitPalette",
-          "targetPlatforms": ["basalt", "chalk"]
+          "targetPlatforms": ["basalt", "chalk", "emery"]
         },
         {
           "file": "images/battery-low.png",
           "name": "IMAGE_BATTERY_LOW",
           "type": "bitmap",
           "memoryFormat": "1BitPalette",
-          "targetPlatforms": ["basalt", "chalk"]
+          "targetPlatforms": ["basalt", "chalk", "emery"]
         },
         {
           "file": "images/battery-half.png",
           "name": "IMAGE_BATTERY_HALF",
           "type": "bitmap",
           "memoryFormat": "1BitPalette",
-          "targetPlatforms": ["basalt", "chalk"]
+          "targetPlatforms": ["basalt", "chalk", "emery"]
         },
         {
           "file": "images/battery.png",
           "name": "IMAGE_BATTERY_FULL",
           "type": "bitmap",
           "memoryFormat": "1BitPalette",
-          "targetPlatforms": ["basalt", "chalk"]
+          "targetPlatforms": ["basalt", "chalk", "emery"]
         },
         {
           "file": "images/phone.png",
           "name": "IMAGE_CONNECT",
           "type": "bitmap",
           "memoryFormat": "1BitPalette",
-          "targetPlatforms": ["basalt", "chalk"]
+          "targetPlatforms": ["basalt", "chalk", "emery"]
         },
         {
           "file": "images/phone-lost.png",
           "name": "IMAGE_DISCONNECT",
           "type": "bitmap",
           "memoryFormat": "1BitPalette",
-          "targetPlatforms": ["basalt", "chalk"]
+          "targetPlatforms": ["basalt", "chalk", "emery"]
         }
       ]
     },
@@ -177,7 +177,8 @@
       "aplite",
       "basalt",
       "chalk",
-      "diorite"
+      "diorite",
+      "emery"
     ],
     "capabilities": [
       "configurable"
